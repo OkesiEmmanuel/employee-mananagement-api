@@ -6,7 +6,6 @@ import {  UpdateUserDto, UserRole } from '../dtos/user.dto';
 export class UserService {
   constructor(private readonly userRepository: UserRepository) {}
 
-
   async getUserById(userId: string) {
     const user = await this.userRepository.getUserById(userId);
     if (!user) throw new NotFoundException(`User with ID ${userId} not found`);
@@ -24,14 +23,14 @@ export class UserService {
   }
 
   async updateUser(userId: string, dto: UpdateUserDto) {
-    return this.userRepository.updateUser(userId, dto);
+    return await this.userRepository.updateUser(userId, dto);
   }
 
   async updateUserRole(userId: string, role: UserRole) {
-    return this.userRepository.updateUserRole(userId, role);
+    return await this.userRepository.updateUserRole(userId, role);
   }
 
   async deleteUser(userId: string) {
-    return this.userRepository.deleteUser(userId);
+    return await this.userRepository.deleteUser(userId);
   }
 }

@@ -7,9 +7,12 @@ import { PrismaService } from './infrastructure/prisma/prisma.service';
 import { AuthModule } from './modules/auth/auth.module';
 import { SecurityModule } from './infrastructure/security/security.module';
 import { PrismaModule } from './infrastructure/prisma/prisma.module';
+import { UsersModule } from './modules/users/users.module';
+import { EmployeesModule } from './modules/employees/employees.module';
+import { DepartmentsModule } from './modules/departments/departments.module';
 
 @Module({
-  imports: [AuthModule, SecurityModule, PrismaModule ],
+  imports: [AuthModule, UsersModule, DepartmentsModule, EmployeesModule, SecurityModule, PrismaModule ],
   controllers: [],
   providers: [],
 })

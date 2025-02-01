@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { EmployeeController } from './controllers/employee.controller';
 import { EmployeeService } from './services/employee.service';
-import { Employee } from './repositories/employee';
+import { EmployeeRepository } from './repositories/employee.repository';
 
 @Module({
   controllers: [EmployeeController],
-  providers: [EmployeeService, Employee]
+  providers: [EmployeeService, EmployeeRepository]
 })
 export class EmployeesModule {}

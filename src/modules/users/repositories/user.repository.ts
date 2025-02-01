@@ -8,7 +8,6 @@ import { IUserRepository } from '../interfaces/user.interface';
 export class UserRepository implements IUserRepository {
   constructor(private readonly prisma: PrismaService) {}
 
-
   async getUserById(userId: string): Promise<Auth | null> {
     return await this.prisma.user.findUnique({
       where: { id: userId },

@@ -8,7 +8,8 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   //Enable rate limiting
-  app.use(RateLimitMiddleware);
+  // const rateLimiter = new RateLimitMiddleware();
+  // app.use(rateLimiter );
   // Enable global validation and transformation
   app.useGlobalPipes(
     new ValidationPipe({

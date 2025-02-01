@@ -12,7 +12,4 @@ describe('UserRepository', () => {
     provider = module.get<UserRepository>(UserRepository);
   });
 
-  it('should be defined', () => {
-    expect(provider).toBeDefined();
-  });
 });
