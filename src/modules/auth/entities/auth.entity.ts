@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { PrismaClient, $Enums } from '@prisma/client';
+import { Role, $Enums } from '@prisma/client';
 
-type Role = $Enums.Role; 
+// type Role = $Enums.Role; 
 
 export class Auth {
   @ApiProperty({ example: '123e4567-e89b-12d3-a456-426614174000', description: 'User ID' })
@@ -10,7 +10,7 @@ export class Auth {
   @ApiProperty({ example: 'user@example.com', description: 'User email address' })
   email: string;
 
-  @ApiProperty({ example: 'EMPLOYEE', description: 'User role', enum: Role })
+  @ApiProperty({ example: 'EMPLOYEE', description: 'User role', enum: Object.values(Role as any) })
   role: Role;
 
   @ApiProperty({ example: 'PASSWORD', description: 'Password' })

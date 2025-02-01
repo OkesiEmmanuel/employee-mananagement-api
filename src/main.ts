@@ -2,9 +2,13 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { RateLimitMiddleware } from './infrastructure/security/rateLimiter.middleware';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  //Enable rate limiting
+  app.use(RateLimitMiddleware);
   // Enable global validation and transformation
   app.useGlobalPipes(
     new ValidationPipe({
