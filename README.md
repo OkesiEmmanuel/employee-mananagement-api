@@ -1,99 +1,211 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# 🚀 Project Setup, Dockerization, and Deployment Guide
+## Employee Management System-Backend API
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+## 📌 **Prerequisites**
+Before proceeding, ensure you have the following installed:
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+- **Git**: [Install Git](https://git-scm.com/downloads)
+- **Node.js & npm**: [Install Node.js](https://nodejs.org/)
+- **Docker**: [Install Docker](https://docs.docker.com/get-docker/)
+- **Docker Compose**: [Install Docker Compose](https://docs.docker.com/compose/install/)
 
-## Description
-
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
-
-## Project setup
-
-```bash
-$ npm install
+## 👥 **1. Clone the Repository**
+```sh
+git clone https://github.com/OkesiEmmanuel/employee-mananagement-api.git
+cd employee-mananament-api
 ```
 
-## Compile and run the project
+---
 
-```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+## 📦 **2. Install Dependencies**
+Ensure all required dependencies are installed.
+```sh
+npm install
 ```
 
-## Run tests
+---
 
-```bash
-# unit tests
-$ npm run test
+## 🛠 **3. Environment Variables Configuration**
+Create a `.env` file in the root directory and define the required environment variables:
+```ini
+# Application Config
+PORT=3000
 
-# e2e tests
-$ npm run test:e2e
+# Database Config
+POSTGRES_USER=myuser
+POSTGRES_PASSWORD=mypassword
+POSTGRES_DB=nestjs_db
+POSTGRES_HOST=db
+POSTGRES_PORT=5432
 
-# test coverage
-$ npm run test:cov
+# JWT Secret
+JWT_SECRET=mysecretkey
 ```
 
-## Deployment
+---
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+## 📌 **4. Create `Dockerfile`**
+Create a `Dockerfile` in the project root to define how the application runs inside a container.
+```dockerfile
+# Use an official Node.js runtime as a parent image
+FROM node:18
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+# Set the working directory in the container
+WORKDIR /app
 
-```bash
-$ npm install -g mau
-$ mau deploy
+# Copy package.json and package-lock.json
+COPY package*.json ./
+
+# Install dependencies
+RUN npm install --only=production
+
+# Copy the entire project
+COPY . .
+
+# Expose application port
+EXPOSE 3000
+
+# Start the application
+CMD ["npm", "run", "start"]
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+---
 
-## Resources
+## 🏠 **5. Create `docker-compose.yml`**
+Define a `docker-compose.yml` file to orchestrate multiple services, such as the application and PostgreSQL database.
 
-Check out a few resources that may come in handy when working with NestJS:
+```yaml
+version: '3.8'
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    env_file:
+      - .env
+    environment:
+      - DATABASE_URL=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:${POSTGRES_PORT}/${POSTGRES_DB}
+    restart: always
 
-## Support
+  db:
+    image: postgres:13
+    restart: always
+    ports:
+      - "5432:5432"
+    env_file:
+      - .env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+volumes:
+  postgres_data:
+```
 
-## Stay in touch
+---
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+## 💪 **6. Build and Run with Docker Compose**
+To build and run the project with Docker Compose, execute:
 
-## License
+```sh
+docker-compose up --build
+```
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+To run it in **detached mode** (background):
+
+```sh
+docker-compose up -d
+```
+
+To stop the services:
+
+```sh
+docker-compose down
+```
+
+---
+
+## 💄 **7. Push Docker Image to DockerHub**
+### 🔹 **Step 1: Login to DockerHub**
+```sh
+docker login
+```
+Enter your **DockerHub username** and **password** when prompted.
+
+### 🔹 **Step 2: Build the Docker Image**
+Replace `devwizard074` and `employee-mananagement-api` accordingly.
+```sh
+docker build -t devwizard074/employee-mananagement-api .
+```
+
+### 🔹 **Step 3: Tag the Image**
+Tag the image before pushing:
+```sh
+docker tag devwizard074/employee-mananagement-api devwizard074/employee-mananagement-api:latest
+```
+
+### 🔹 **Step 4: Push to DockerHub**
+```sh
+docker push devwizard074/employee-mananagement-api:latest
+```
+
+---
+
+## 🚀 **8. Deploy on a Server**
+### 🔹 **Step 1: Pull the Docker Image**
+On the server, pull the image from DockerHub:
+```sh
+docker pull devwizard074/employee-mananagement-api:latest
+```
+
+### 🔹 **Step 2: Run the Container**
+```sh
+docker run -d -p 3000:3000 --env-file .env devwizard074/employee-mananagement-api
+```
+
+Or run using **Docker Compose**:
+```sh
+docker-compose up -d
+```
+
+---
+
+## 📓 **9. Verify Deployment**
+Check running containers:
+```sh
+docker ps
+```
+
+View application logs:
+```sh
+docker logs -f <container_id>
+```
+
+Test the API:
+```sh
+curl http://localhost:3000
+```
+
+---
+
+## 🔧 **10. Managing the Deployment**
+### **Stop the Running Container**
+```sh
+docker stop <container_id>
+```
+
+### **Remove the Container**
+```sh
+docker rm <container_id>
+```
+
+
+## 🎭 **Final Notes**
+- Ensure your **`.env` file** is **not committed** to Git.
+- Use **secrets management** (like AWS Secrets Manager) for production.
+- Automate deployment with **CI/CD pipelines** (GitHub Actions, GitLab CI, etc.).
+- Use **Docker Swarm** or **Kubernetes** for **scalable deployments**.

@@ -26,10 +26,9 @@ export class AuthRepository implements IAuthRepository {
       updatedAt: user.updatedAt,
     };
   }
-
   async findUserByEmail(email: string): Promise<Auth | null> {
     const user = await this.prisma.user.findUnique({
-      where: { email },
+      where: {  email },
       select: {
         id: true,
         email: true,

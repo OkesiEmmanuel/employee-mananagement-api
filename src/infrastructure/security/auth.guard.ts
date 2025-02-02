@@ -1,4 +1,4 @@
-import { Injectable, CanActivate, ExecutionContext, UnauthorizedException } from '@nestjs/common';
+import { Injectable, CanActivate, ExecutionContext, UnauthorizedException, ForbiddenException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Reflector } from '@nestjs/core';
 import { Role } from '@prisma/client';
@@ -9,10 +9,17 @@ export class AuthGuard implements CanActivate {
 
   canActivate(context: ExecutionContext): boolean {
     const request = context.switchToHttp().getRequest();
-    const token = request.headers.authorization?.split(' ')[1];
+    const authHeader = request.headers.authorization;
 
+    if (!authHeader) {
+      console.warn('Authorization header is missing');
+      throw new UnauthorizedException('Authentication token is required');
+    }
+
+    const token = authHeader.split(' ')[1];
     if (!token) {
-      throw new UnauthorizedException('No token provided');
+      console.warn('Invalid authentication token format');
+      throw new UnauthorizedException('Invalid authentication token format');
     }
 
     try {
@@ -20,22 +27,30 @@ export class AuthGuard implements CanActivate {
       console.log('Decoded JWT Payload:', payload);
 
       if (!payload.role) {
-        throw new UnauthorizedException('Role not found in token');
+        console.warn('User role is missing in token');
+        throw new UnauthorizedException('User role is missing in token');
       }
 
       request.user = payload;
 
       const requiredRoles = this.reflector.get<Role[]>('roles', context.getHandler());
 
-      // If no roles are required, or if the user's role matches, allow access
       if (!requiredRoles || requiredRoles.includes(payload.role)) {
         return true;
       }
 
-      throw new UnauthorizedException('Forbidden: Insufficient role');
+      console.warn('Access denied: Insufficient role');
+      throw new ForbiddenException('You don’t have access to this resource');
     } catch (error) {
-      console.error('Error verifying token:', error);
-      throw new UnauthorizedException('Invalid token');
+      console.error('Error verifying token:', error.message);
+
+      if (error.name === 'TokenExpiredError') {
+        throw new UnauthorizedException('Authentication token has expired');
+      } else if (error.name === 'JsonWebTokenError') {
+        throw new UnauthorizedException('Invalid authentication token');
+      }
+
+      throw new UnauthorizedException('Authentication failed');
     }
   }
 }
