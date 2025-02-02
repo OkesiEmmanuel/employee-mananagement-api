@@ -4,13 +4,13 @@ import { AssignDepartmentDto, CreateEmployeeDto, UpdateEmployeeDto } from '../dt
 import { RolesGuard } from '../../../infrastructure/security/roles.guard';
 import { Roles } from '../../../infrastructure/security/roles.decorator';
 import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
-import { AuthGuard } from '@nestjs/passport';
 import { Employee, Role } from '@prisma/client';
+import { AuthGuard } from 'src/infrastructure/security/auth.guard';
 
 @ApiTags('Employees')
 @ApiBearerAuth()
 @Controller('employees')
-@UseGuards(AuthGuard('jwt'), RolesGuard)
+@UseGuards(AuthGuard, RolesGuard)
 export class EmployeeController {
   constructor(private readonly employeeService: EmployeeService) {}
 
