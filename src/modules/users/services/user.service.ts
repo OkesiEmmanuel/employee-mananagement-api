@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { UserRepository } from '../repositories/user.repository';
-import {  UpdateUserDto, UserRole } from '../dtos/user.dto';
+import {  UpdateUserDto,  } from '../dtos/user.dto';
+import { Role } from '@prisma/client';
 
 @Injectable()
 export class UserService {
@@ -26,7 +27,7 @@ export class UserService {
     return await this.userRepository.updateUser(userId, dto);
   }
 
-  async updateUserRole(userId: string, role: UserRole) {
+  async updateUserRole(userId: string, role: Role) {
     return await this.userRepository.updateUserRole(userId, role);
   }
 

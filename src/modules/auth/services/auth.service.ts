@@ -37,6 +37,7 @@ export class AuthService {
   async login(dto: LoginDto): Promise<{ accessToken: string }> {
     // Find user by email
     const user = await this.authRepository.findUserByEmail(dto.email);
+    console.log(`user:${user}`);
     if (!user) throw new UnauthorizedException('Invalid credentials');
 
     // Verify password
@@ -46,7 +47,8 @@ export class AuthService {
     // Generate JWT token
     const payload = { userId: user.id, email: user.email, role: user.role };
     const token = this.jwtService.sign(payload);
+    console.log(`payload ${token}`)
 
-    return { accessToken: token };
+    return { accessToken: token,...payload};
   }
 }

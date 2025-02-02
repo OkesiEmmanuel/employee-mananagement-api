@@ -10,7 +10,7 @@ export class Auth {
   @ApiProperty({ example: 'user@example.com', description: 'User email address' })
   email: string;
 
-  @ApiProperty({ example: 'EMPLOYEE', description: 'User role', enum: Object.values(Role as any) })
+  @ApiProperty({ example: 'EMPLOYEE', description: 'User role', enum: Object.values(Role) })
   role: Role;
 
   @ApiProperty({ example: 'PASSWORD', description: 'Password' })

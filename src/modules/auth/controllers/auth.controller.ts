@@ -4,6 +4,10 @@ import { RegisterDto, LoginDto } from '../dtos/auth.dto';
 import { Auth } from '../entities/auth.entity';
 import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
 import { RolesGuard } from 'src/infrastructure/security/roles.guard';
+import { Roles } from 'src/infrastructure/security/roles.decorator';
+import { Role } from '@prisma/client';
+import { AuthGuard } from 'src/infrastructure/security/auth.guard';
+
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -24,9 +28,10 @@ export class AuthController {
   async login(@Body() dto: LoginDto): Promise<{ accessToken: string }> {
     return this.authService.login(dto);
   }
-
+ 
   @Get('profile')
-  @UseGuards(RolesGuard) // Protect this route
+  @UseGuards(AuthGuard,RolesGuard, ) 
+  @Roles(Role.ADMIN)
   @ApiBearerAuth() 
   @ApiOperation({ summary: 'Get logged-in user profile' })
   @ApiResponse({ status: 200, description: 'Returns user profile', type: Auth })

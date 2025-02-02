@@ -1,3 +1,4 @@
+import { Role } from "@prisma/client";
 import { Auth } from "src/modules/auth/entities/auth.entity";
 
 export interface IUserRepository{
@@ -5,6 +6,6 @@ export interface IUserRepository{
     getUserById(id: string): Promise<Auth | null>;
     getUserByEmail(email: string): Promise<Auth | null>;
     updateUser(email: string, data: Partial<Auth>): Promise<Auth>;
-    updateUserRole(userId: string, role: 'ADMIN' | 'MANAGER' | 'EMPLOYEE'): Promise<Auth>;
+    updateUserRole(userId: string, role: Role): Promise<Auth>;
     deleteUser(userId: string): Promise<void>;
 }

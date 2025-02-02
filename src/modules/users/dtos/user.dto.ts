@@ -1,12 +1,8 @@
 import { Optional } from '@nestjs/common';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEmail, IsNotEmpty, MinLength, IsEnum, IsOptional } from 'class-validator';
+import { Role } from '@prisma/client';
 
-export enum UserRole {
-    ADMIN = 'ADMIN',
-    MANAGER = 'MANAGER',
-    EMPLOYEE = 'EMPLOYEE',
-  }
 export class UpdateUserDto {
   @ApiProperty({ example: 'user@example.com', description: 'User email address' })
   @IsOptional()
@@ -21,6 +17,6 @@ export class UpdateUserDto {
 
   @ApiProperty({ example: 'EMPLOYEE', description: 'User role', enum: ['ADMIN', 'MANAGER', 'EMPLOYEE'] })
   @IsOptional()
-  @IsEnum(UserRole)
-  role?:UserRole;
+  @IsEnum(Role)
+  role?:Role;
 }

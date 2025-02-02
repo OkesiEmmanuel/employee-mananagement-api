@@ -9,7 +9,7 @@ export class CreateDepartmentDto {
 }
 
 export class UpdateDepartmentDto {
-  @ApiProperty({ example: 'Research and Development', description: 'Updated department name', required: false })
+  @ApiProperty({ example: 'Research and Development Studies', description: 'Updated department name', required: false })
   @IsString()
   name?: string;
 }
