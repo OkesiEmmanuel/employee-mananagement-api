@@ -3,7 +3,6 @@ import { PrismaService } from '../../../infrastructure/prisma/prisma.service';
 import { Auth } from 'src/modules/auth/entities/auth.entity';
 import { IUserRepository } from '../interfaces/user.interface';
 
-
 @Injectable()
 export class UserRepository implements IUserRepository {
   constructor(private readonly prisma: PrismaService) {}

@@ -2,16 +2,13 @@ import { Injectable } from '@nestjs/common';
 import { IAuthRepository } from '../interfaces/auth.interface';
 import { PrismaService } from 'src/infrastructure/prisma/prisma.service';
 import { Auth } from '../entities/auth.entity';
-import { RegisterDto } from '../dtos/auth.dto';
 import { Role } from '@prisma/client';
-
 
 @Injectable()
 export class AuthRepository implements IAuthRepository {
   constructor(private readonly prisma: PrismaService) {}
 
   async createUser(email: string, password: string, role: Role= Role.EMPLOYEE): Promise<Auth> {
-    console.log(`data ${email} with password ${password} and role ${role}`)
     const user = await this.prisma.user.create({
       data: {
         email: email,

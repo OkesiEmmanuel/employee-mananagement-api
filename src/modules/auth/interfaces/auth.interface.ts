@@ -1,5 +1,4 @@
 import { Role } from "@prisma/client";
-import { RegisterDto } from "../dtos/auth.dto";
 import { Auth } from "../entities/auth.entity";
 
 export interface IAuthRepository{

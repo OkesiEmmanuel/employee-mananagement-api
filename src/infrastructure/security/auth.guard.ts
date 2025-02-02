@@ -23,10 +23,8 @@ export class AuthGuard implements CanActivate {
         throw new UnauthorizedException('Role not found in token');
       }
 
-      // Attach the payload (including the role) to the request object
       request.user = payload;
 
-      // Get the required roles from the route handler using the custom Roles decorator
       const requiredRoles = this.reflector.get<Role[]>('roles', context.getHandler());
 
       // If no roles are required, or if the user's role matches, allow access

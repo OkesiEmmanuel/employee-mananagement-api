@@ -4,7 +4,6 @@ import { CreateDepartmentDto, UpdateDepartmentDto } from '../dtos/department.dto
 import { RolesGuard } from '../../../infrastructure/security/roles.guard';
 import { Roles } from '../../../infrastructure/security/roles.decorator';
 import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
-// import { AuthGuard } from '@nestjs/passport';
 import { Department, Role } from '@prisma/client';
 import { AuthGuard } from 'src/infrastructure/security/auth.guard';
 

@@ -13,7 +13,7 @@ export class RolesGuard implements CanActivate {
     ]);
 
     if (!requiredRoles) {
-      return true; // No specific role required, allow access
+      return true; 
     }
 
     const request = context.switchToHttp().getRequest();
@@ -26,7 +26,6 @@ export class RolesGuard implements CanActivate {
 
     console.log('✅ Authenticated User:', user);
 
-    // Ensure `user.role` is checked correctly
-    return requiredRoles.includes(user.role); // `role` is a single value, not an array
+    return requiredRoles.includes(user.role); 
   }
 }
