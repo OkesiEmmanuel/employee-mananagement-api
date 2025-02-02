@@ -31,7 +31,7 @@ export class AuthController {
  
   @Get('profile')
   @UseGuards(AuthGuard,RolesGuard, ) 
-  @Roles(Role.ADMIN)
+  @Roles(Role.ADMIN, Role.EMPLOYEE, Role.MANAGER)
   @ApiBearerAuth() 
   @ApiOperation({ summary: 'Get logged-in user profile' })
   @ApiResponse({ status: 200, description: 'Returns user profile', type: Auth })
